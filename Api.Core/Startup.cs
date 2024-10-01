@@ -1,11 +1,16 @@
 using Api.Core.Configuration;
 using Api.Core.Services;
 using Api.Core.Services.interfaces;
+using Api.External.Consumer.Common;
+using Api.External.Consumer.Common.Interfaces;
+using Api.External.Consumer.Services;
+using Api.External.Consumer.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Net.Http;
 
 namespace apicore
 {
@@ -28,14 +33,17 @@ namespace apicore
             services.AddSwaggerGen();
 
             // Services
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISlotsService, SlotsService>();
+            services.AddScoped<IExternalApiService, ExternalApiService>();
+            services.AddScoped<IHttpService, HttpService>();
+            services.AddHttpClient<ExternalApiService>(c => c.BaseAddress = new System.Uri("https://draliatest.azurewebsites.net/api"));
 
             // add health checks
             services.AddHealthChecks();
 
             // Custom Configurations
-            services.Configure<UserConfig>(_config.GetSection(UserConfig.Section));
-
+            services.Configure<ExternalApiConfig>(_config.GetSection(ExternalApiConfig.Section));
+            services.Configure<AuthConfig>(_config.GetSection(AuthConfig.Section));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
