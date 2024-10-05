@@ -13,13 +13,6 @@ namespace Api.Core.Tests.Services
 
         private Mock<IExternalApiService> _externalApiServiceMock;
 
-        /*
-            TODO: Tests que se me ocurren
-                al cerrar que no se den horas despues si hay fragmentos raros de 35 mins o asi
-                test donde lunchtime sea +1 hora
-                test donde lunchtime sea negativo
-        */
-
         [SetUp]
         public void SetUp()
         {
@@ -246,9 +239,9 @@ namespace Api.Core.Tests.Services
 
             // then
             result.Thursday.Should().NotBeNull();
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 9, 0, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 12, 50, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 14, 50, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 9, 0, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 12, 50, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 14, 50, 0));
         }
 
 
@@ -311,20 +304,20 @@ namespace Api.Core.Tests.Services
             result.Thursday.Should().NotBeNull();
 
             // before open time
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 8, 0, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 8, 10, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 8, 20, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 8, 30, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 8, 40, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 8, 50, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 8, 0, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 8, 10, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 8, 20, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 8, 30, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 8, 40, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 8, 50, 0));
 
             // after (including) close time
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 15, 0, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 15, 10, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 15, 20, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 15, 30, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 15, 40, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 15, 50, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 15, 0, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 15, 10, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 15, 20, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 15, 30, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 15, 40, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 15, 50, 0));
         }
 
 
@@ -385,12 +378,12 @@ namespace Api.Core.Tests.Services
 
             // then
             result.Thursday.Should().NotBeNull();
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 13, 0, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 13, 10, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 13, 20, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 13, 30, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 13, 40, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 13, 50, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 13, 0, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 13, 10, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 13, 20, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 13, 30, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 13, 40, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 13, 50, 0));
         }
 
 
@@ -430,24 +423,24 @@ namespace Api.Core.Tests.Services
 
             // then
             result.Thursday.Should().NotBeNull();
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 10, 0, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 10, 20, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 10, 40, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 11, 0, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 11, 20, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 11, 40, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 12, 0, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 12, 20, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 12, 40, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 13, 0, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 13, 20, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 13, 40, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 14, 0, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 14, 20, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 14, 40, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 15, 0, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 15, 20, 0));
-            result.Thursday.AvailableSlots.Should().NotContain(a => a.StartTime == new DateTime(2024, 11, 7, 15, 40, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 10, 0, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 10, 20, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 10, 40, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 11, 0, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 11, 20, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 11, 40, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 12, 0, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 12, 20, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 12, 40, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 13, 0, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 13, 20, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 13, 40, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 14, 0, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 14, 20, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 14, 40, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 15, 0, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 15, 20, 0));
+            result.Thursday.AvailableSlots.Should().NotContain(slot => slot.StartTime == new DateTime(2024, 11, 7, 15, 40, 0));
         }
 
         [Test]
@@ -486,10 +479,10 @@ namespace Api.Core.Tests.Services
 
             // then
             result.Thursday.Should().NotBeNull();
-            result.Thursday.AvailableSlots.Should().Contain(a => a.StartTime == new DateTime(2024, 11, 7, 9, 0, 0));
-            result.Thursday.AvailableSlots.Should().Contain(a => a.StartTime == new DateTime(2024, 11, 7, 9, 40, 0));
-            result.Thursday.AvailableSlots.Should().Contain(a => a.StartTime == new DateTime(2024, 11, 7, 16, 0, 0));
-            result.Thursday.AvailableSlots.Should().Contain(a => a.StartTime == new DateTime(2024, 11, 7, 16, 40, 0));
+            result.Thursday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 7, 9, 0, 0));
+            result.Thursday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 7, 9, 40, 0));
+            result.Thursday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 7, 16, 0, 0));
+            result.Thursday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 7, 16, 40, 0));
         }
 
         [Test]
@@ -531,10 +524,112 @@ namespace Api.Core.Tests.Services
 
             // then
             result.Thursday.Should().NotBeNull();
-            result.Thursday.AvailableSlots.Should().Contain(a => a.StartTime == rightAfterOpeningTime);
-            result.Thursday.AvailableSlots.Should().Contain(a => a.StartTime == rightBeforeLunchTime);
-            result.Thursday.AvailableSlots.Should().Contain(a => a.StartTime == rightAfterLunchTime);
-            result.Thursday.AvailableSlots.Should().Contain(a => a.StartTime == rightBeforeCloseTime);
+            result.Thursday.AvailableSlots.Should().Contain(slot => slot.StartTime == rightAfterOpeningTime);
+            result.Thursday.AvailableSlots.Should().Contain(slot => slot.StartTime == rightBeforeLunchTime);
+            result.Thursday.AvailableSlots.Should().Contain(slot => slot.StartTime == rightAfterLunchTime);
+            result.Thursday.AvailableSlots.Should().Contain(slot => slot.StartTime == rightBeforeCloseTime);
+        }
+
+        [Test]
+        public async Task GivenSlotDurationMultipleOfFive_WhenGetAvailability_ThenResultStillHasCorrectAvailableTimes()
+        {
+            // given
+            DateOnly mondayDate = new DateOnly(2024, 11, 4);
+
+            var weekAvailabilityStub = new WeeklyAvailabilityResponse
+            {
+                Facility = new Facility
+                {
+                    FacilityId = "this-is-some-facility-id",
+                    Name = "We have the best doctors clinic",
+                    Address = "Calle falsa 123"
+                },
+                SlotDurationMinutes = 45,
+                Wednesday = new Day
+                {
+                    WorkPeriod = new WorkPeriod
+                    {
+                        StartHour = 9,
+                        EndHour = 15,
+                        LunchStartHour = 13,
+                        LunchEndHour = 14,
+                    }
+                }
+            };
+
+            _externalApiServiceMock.Setup(api => api.GetWeeklyAvailabilityAsync(mondayDate)).ReturnsAsync(weekAvailabilityStub);
+
+            // when
+            var result = await _service.GetWeekFreeSlotsAsync(mondayDate);
+
+            // then
+            result.Wednesday.Should().NotBeNull();
+            result.Wednesday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 6, 9, 0, 0));
+            result.Wednesday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 6, 9, 45, 0));
+            result.Wednesday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 6, 10, 30, 0));
+            result.Wednesday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 6, 11, 15, 0));
+            result.Wednesday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 6, 12, 0, 0));
+            result.Wednesday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 6, 12, 45, 0));
+            result.Wednesday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 6, 14, 0, 0));
+            result.Wednesday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 6, 14, 45, 0));
+        }
+
+        [Test]
+        public async Task GivenFacilityData_WhenGetAvailability_ThenResultContainsFacilityData()
+        {
+            // given
+            DateOnly mondayDate = new DateOnly(2024, 11, 4);
+
+            string facilityName = "We have the best doctors clinic";
+            string facilityAddress = "Calle falsa 123";
+
+            var weekAvailabilityStub = new WeeklyAvailabilityResponse
+            {
+                Facility = new Facility
+                {
+                    FacilityId = "this-is-some-facility-id",
+                    Name = facilityName,
+                    Address = facilityAddress
+                },
+                SlotDurationMinutes = 10,
+                Monday = new Day
+                {
+                    WorkPeriod = new WorkPeriod
+                    {
+                        StartHour = 9,
+                        EndHour = 15,
+                        LunchStartHour = 13,
+                        LunchEndHour = 14,
+                    }
+                },
+                Thursday = new Day
+                {
+                    WorkPeriod = new WorkPeriod
+                    {
+                        StartHour = 8,
+                        EndHour = 14,
+                        LunchStartHour = 12,
+                        LunchEndHour = 13,
+                    },
+                    BusySlots = new List<BusySlot>()
+                    {
+                        new BusySlot()
+                        {
+                            Start = new DateTime(2024, 11, 4, 8, 0, 0),
+                            End = new DateTime(2024, 11, 4, 8, 10, 0)
+                        }
+                    }
+                }
+            };
+            _externalApiServiceMock.Setup(api => api.GetWeeklyAvailabilityAsync(mondayDate)).ReturnsAsync(weekAvailabilityStub);
+
+            // when
+            var result = await _service.GetWeekFreeSlotsAsync(mondayDate);
+
+            // then
+            result.Facility.Should().NotBeNull();
+            result.Facility.Name.Should().Be(facilityName);
+            result.Facility.Address.Should().Be(facilityAddress);
         }
     }
 }

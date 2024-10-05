@@ -44,6 +44,7 @@ namespace apicore
             // Custom Configurations
             services.Configure<ExternalApiConfig>(_config.GetSection(ExternalApiConfig.Section));
             services.Configure<AuthConfig>(_config.GetSection(AuthConfig.Section));
+            services.Configure<CoreConfig>(_config.GetSection(CoreConfig.Section));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,8 +10,6 @@ namespace Api.External.Consumer.Tests.Services
 {
     public class ExternalApiServiceTest
     {
-        // TODO: do something in the doc about the frameworks I use the general project and for testing 
-
         private IExternalApiService _service;
 
         private Mock<HttpClient> _httpClientMock;
@@ -89,7 +87,6 @@ namespace Api.External.Consumer.Tests.Services
 
             var httpReqMock = new Mock<HttpRequestMessage>();
             _httpServiceMock.Setup(httpService => httpService.SetUpGet(fullUrlToCall)).Returns(httpReqMock.Object);
-            // _httpServiceMock.Setup(httpService => httpService.HttpCallAsync(_httpClientMock.Object, httpReqMock.Object)).ReturnsAsync(EXTERNAL_API_RESPONSE_SIMULATION);
 
             // when
             var response = await _service.GetWeeklyAvailabilityAsync(dateMonday);
@@ -131,7 +128,6 @@ namespace Api.External.Consumer.Tests.Services
 
             var httpReqMock = new Mock<HttpRequestMessage>();
             _httpServiceMock.Setup(httpService => httpService.SetUpGet(fullUrlToCall)).Returns(httpReqMock.Object);
-            // _httpServiceMock.Setup(httpService => httpService.HttpCallAsync(_httpClientMock.Object, httpReqMock.Object)).ReturnsAsync(EXTERNAL_API_RESPONSE_SIMULATION);
 
             // when
             var response = await _service.GetWeeklyAvailabilityAsync(dateMonday);
