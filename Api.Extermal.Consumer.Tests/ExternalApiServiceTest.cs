@@ -75,7 +75,7 @@ namespace Api.External.Consumer.Tests
         }
 
         [Test]
-        public async Task GivenMondayToExternalApi_WhenCallGetAvailability_ThenResponseParsesDataCorrectly()
+        public async Task GivenJsonStructure_WhenCallGetAvailability_ThenResponseParsesDataCorrectly()
         {
             // given
             DateOnly dateMonday = new DateOnly(2024, 10, 02);
@@ -115,13 +115,32 @@ namespace Api.External.Consumer.Tests
             response.Monday.WorkPeriod.EndHour.Should().Be(17);
             response.Monday.WorkPeriod.LunchStartHour.Should().Be(13);
             response.Monday.WorkPeriod.LunchEndHour.Should().Be(14);
+        }
 
+        [Test]
+        public async Task GivenMondayToExternalApi_WhenCallGetAvailability_ThenCallsServiceWithWellFormedUrl()
+        {
+            // given
+            DateOnly dateMonday = new DateOnly(2024, 10, 02);
 
+            string baseUrl = "http://base_url";
+            string endopint = "/this_is_an_endpoint/";
+            string dateMondayStr = "20241002";
+            string fullUrlToCall = baseUrl + endopint + dateMondayStr;
 
+            _configMock.Setup(conf => conf.BaseUrl).Returns(baseUrl);
+            _configMock.Setup(conf => conf.AvailabilityEndpoint).Returns(endopint);
 
+            var httpReqMock = new Mock<HttpRequestMessage>();
+            _httpServiceMock.Setup(httpService => httpService.SetUpGet(fullUrlToCall)).Returns(httpReqMock.Object);
+            _httpServiceMock.Setup(httpService => httpService.HttpCallAsync(_httpClientMock.Object, httpReqMock.Object)).ReturnsAsync(EXTERNAL_API_RESPONSE_SIMULATION);
 
+            // when
+            var response = await _service.GetWeeklyAvailabilityAsync(dateMonday);
+
+            // then
+            response.Should().NotBeNull();
             _httpServiceMock.Verify(s => s.SetUpGet(fullUrlToCall), Times.Once());
-
         }
     }
 }
