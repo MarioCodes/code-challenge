@@ -20,8 +20,7 @@ namespace Api.External.Consumer.Services
             string parsedDate = date.ToString("yyyyMMdd");
             string url = await BuildUrl(parsedDate);
             
-            HttpRequestMessage request = _httpService.SetUpGet(url);
-            string response = await _httpService.HttpCallAsync(_httpClient, request);
+            string response = await _httpService.HttpCallAsync(_httpClient, () => _httpService.SetUpGet(url));
             return JsonConvert.DeserializeObject<WeeklyAvailabilityResponse>(response);
         }
 

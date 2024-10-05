@@ -46,7 +46,7 @@ namespace Api.Core.Controllers
             catch (Exception ex)
             {
                 // TODO: improve message
-                return BadRequest("error");
+                return BadRequest($"Error on get week availability: {ex}");
             }
         }
 
