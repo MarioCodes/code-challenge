@@ -53,15 +53,16 @@ namespace Api.External.Consumer.Common
 
         public HttpRequestMessage SetUpPost(string url, object payload)
         {
+            // TODO: set this exception @ config level
+            if (payload is null)
+                throw new ArgumentNullException(nameof(payload), $"Cannot create a post with null payload url '{url}'");
+
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
-            if (payload is not null)
+            var settings = new JsonSerializerSettings
             {
-                var settings = new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore,
-                };
-                request.Content = new StringContent(JsonConvert.SerializeObject(payload, Formatting.Indented, settings), Encoding.UTF8, "application/json");
-            }
+                NullValueHandling = NullValueHandling.Ignore,
+            };
+            request.Content = new StringContent(JsonConvert.SerializeObject(payload, Formatting.Indented, settings), Encoding.UTF8, "application/json");
             return AddBasicAuthorization(request);
         }
 
