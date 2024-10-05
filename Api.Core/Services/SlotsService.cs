@@ -79,17 +79,12 @@ namespace Api.Core.Services
             DateTime lunchStart = await ConvertToDateTime(inputDay, daySchedule.WorkPeriod.LunchStartHour);
             DateTime lunchEnd = await ConvertToDateTime(inputDay, daySchedule.WorkPeriod.LunchEndHour);
 
-            // TODO: check how to make a clone here
             // TODO: check that if slotDuration is 35 mins and the hours end at 16, I cannot set a time from 15:55 to 16:25
             DateTime slotStart = workshiftStart;
             while (slotStart < workshiftEnd)
             {
                 DateTime slotEnd = slotStart.AddMinutes(slotDuration);
 
-                // TODO: test edge cases w. lunchtime start / end
-                // TODO: test edge cases w. lunchtime 1 hour & when more than 1 hour
-                // TODO: test edge cases w. lunchtime negative
-                // TODO: test edge cases w. workshift start / workshift end
                 if (await ItsLunchtime(lunchStart, lunchEnd, slotStart))
                 {
                     // for cases where lunch duration is > 1 hour
@@ -111,7 +106,8 @@ namespace Api.Core.Services
 
         private async Task<bool> IsSlotFree(Day daySchedule, DateTime slotStart, DateTime slotEnd)
         {
-            return daySchedule.BusySlots?.All(busy => slotStart >= busy.End || slotEnd <= busy.Start) ?? true;
+            bool isSlotBusy = daySchedule.BusySlots?.Any(busy => slotStart < busy.End && slotEnd > busy.Start) ?? false;
+            return !isSlotBusy;
         }
 
         private async Task<bool> ItsLunchtime(DateTime lunchStart, DateTime lunchEnd, DateTime slotStart)
