@@ -11,6 +11,7 @@ namespace Api.Core.Services
 {
     public class SlotsService(IExternalApiService _externalApiService) : ISlotsService
     {
+        // TODO: remember to clean empty folders from repository!
 
         // TODO: testear bien los limites de apertura de clinica
         // TODO: testear bien los limites de cerrar la clinica

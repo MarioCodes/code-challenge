@@ -4,8 +4,9 @@
     {
         public const string Section = "ExternalApiConfig";
 
-        public string BaseUrl { get; set; }
-        public string AvailabilityEndpoint { get; set; }
+        // TODO: use interface instead of virtual?
+        public virtual string BaseUrl { get; set; }
+        public virtual string AvailabilityEndpoint { get; set; }
         public string TakeSlotEndpoint { get; set; }
         public int RetryTimespanInSeconds { get; set; }
         public int RetryAttempts { get; set; }

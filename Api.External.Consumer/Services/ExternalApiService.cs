@@ -9,7 +9,7 @@ using System.Text;
 namespace Api.External.Consumer.Services
 {
     public class ExternalApiService(HttpClient _httpClient, 
-        IHttpService _httpUtils, 
+        IHttpService _httpService, 
         IOptions<ExternalApiConfig> _options) : IExternalApiService
     {
         private ExternalApiConfig _config => _options.Value;
@@ -19,8 +19,8 @@ namespace Api.External.Consumer.Services
             string parsedDate = date.ToString("yyyyMMdd");
             string url = await BuildUrl(parsedDate);
             
-            HttpRequestMessage request = _httpUtils.SetUpGet(url);
-            string response = await _httpUtils.HttpCallAsync(_httpClient, request);
+            HttpRequestMessage request = _httpService.SetUpGet(url);
+            string response = await _httpService.HttpCallAsync(_httpClient, request);
             return JsonConvert.DeserializeObject<WeeklyAvailabilityResponse>(response);
         }
 
