@@ -11,9 +11,9 @@ namespace Api.Core.Services.interfaces
         /// </summary>
         /// <param name="date">The date used to retrieve the free slots for the week.</param>
         /// <returns>
-        ///     A <see cref="WeekAvailabilityDTO"/> object containing the week's availability.
+        ///     A <see cref="WeekAvailabilityResponse"/> object containing the week's availability.
         /// </returns>
-        Task<WeekAvailabilityDTO> GetWeekFreeSlotsAsync(DateOnly date);
+        Task<WeekAvailabilityResponse> GetWeekFreeSlotsAsync(DateOnly date);
         
         /// <summary>
         /// Reserves a slot using the provided request data.
@@ -22,7 +22,7 @@ namespace Api.Core.Services.interfaces
         /// <returns>
         /// A string representing the response from the external API after attempting to reserve the slot.
         /// </returns>
-        Task<string> ReserveSlotAsync(ReserveSlotDTO request);
+        Task<string> ReserveSlotAsync(ReserveSlotRequest request);
 
     }
 }

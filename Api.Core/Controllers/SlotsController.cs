@@ -69,7 +69,7 @@ namespace Api.Core.Controllers
         /// <exception cref="Exception">Catches any unexpected exceptions and returns a <see cref="BadRequestObjectResult"/> with error details</exception>
         [HttpPost("/reserveSlot")]
         [SwaggerOperation(Tags = ["slots"])]
-        public async Task<IActionResult> ReserveSlot([FromBody] ReserveSlotDTO request)
+        public async Task<IActionResult> ReserveSlot([FromBody] ReserveSlotRequest request)
         {
             try
             {

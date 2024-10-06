@@ -29,18 +29,18 @@ namespace Api.Core.Tests.Services
             // given
             DateOnly mondayDate = new DateOnly(2024, 11, 4);
 
-            var weekAvailabilityStub = new WeeklyAvailabilityResponse
+            var weekAvailabilityStub = new WeekAvailabilityDTO
             {
-                Facility = new Facility
+                Facility = new FacilityDTO
                 {
                     FacilityId = "this-is-some-facility-id",
                     Name = "We have the best doctors clinic",
                     Address = "Calle falsa 123"
                 },
                 SlotDurationMinutes = 10,
-                Monday = new Day
+                Monday = new DayDTO
                 {
-                    WorkPeriod = new WorkPeriod
+                    WorkPeriod = new WorkPeriodDTO
                     {
                         StartHour = 9,
                         EndHour = 15,
@@ -48,18 +48,18 @@ namespace Api.Core.Tests.Services
                         LunchEndHour = 14,
                     }
                 },
-                Thursday = new Day
+                Thursday = new DayDTO
                 {
-                    WorkPeriod = new WorkPeriod
+                    WorkPeriod = new WorkPeriodDTO
                     {
                         StartHour = 8,
                         EndHour = 14,
                         LunchStartHour = 12,
                         LunchEndHour = 13,
                     },
-                    BusySlots = new List<BusySlot>()
+                    BusySlots = new List<BusySlotDTO>()
                     {
-                        new BusySlot()
+                        new BusySlotDTO()
                         {
                             Start = new DateTime(2024, 11, 4, 8, 0, 0),
                             End = new DateTime(2024, 11, 4, 8, 10, 0)
@@ -92,18 +92,18 @@ namespace Api.Core.Tests.Services
 
             DateOnly mondayDate = new DateOnly(2024, 11, 4);
 
-            var weekAvailabilityStub = new WeeklyAvailabilityResponse
+            var weekAvailabilityStub = new WeekAvailabilityDTO
             {
-                Facility = new Facility
+                Facility = new FacilityDTO
                 {
                     FacilityId = "this-is-some-facility-id",
                     Name = "We have the best doctors clinic",
                     Address = "Calle falsa 123"
                 },
                 SlotDurationMinutes = 10,
-                Thursday = new Day
+                Thursday = new DayDTO
                 {
-                    WorkPeriod = new WorkPeriod
+                    WorkPeriod = new WorkPeriodDTO
                     {
                         StartHour = 9,
                         EndHour = 15,
@@ -131,40 +131,40 @@ namespace Api.Core.Tests.Services
 
             DateOnly mondayDate = new DateOnly(2024, 11, 4);
 
-            var weekAvailabilityStub = new WeeklyAvailabilityResponse
+            var weekAvailabilityStub = new WeekAvailabilityDTO
             {
-                Facility = new Facility
+                Facility = new FacilityDTO
                 {
                     FacilityId = "this-is-some-facility-id",
                     Name = "We have the best doctors clinic",
                     Address = "Calle falsa 123"
                 },
                 SlotDurationMinutes = 10,
-                Thursday = new Day
+                Thursday = new DayDTO
                 {
-                    WorkPeriod = new WorkPeriod
+                    WorkPeriod = new WorkPeriodDTO
                     {
                         StartHour = 9,
                         EndHour = 15,
                         LunchStartHour = 13,
                         LunchEndHour = 14,
                     },
-                    BusySlots = new List<BusySlot>()
+                    BusySlots = new List<BusySlotDTO>()
                     {
                         // open time
-                        new BusySlot()
+                        new BusySlotDTO()
                         {
                             Start = new DateTime(2024, 11, 7, 9, 0, 0),
                             End = new DateTime(2024, 11, 7, 9, 10, 0)
                         },
                         // right before lunchtime
-                        new BusySlot()
+                        new BusySlotDTO()
                         {
                             Start = new DateTime(2024, 11, 7, 12, 50, 0),
                             End = new DateTime(2024, 11, 7, 13, 0, 0)
                         },
                         // close time
-                        new BusySlot()
+                        new BusySlotDTO()
                         {
                             Start = new DateTime(2024, 11, 7, 14, 50, 0),
                             End = new DateTime(2024, 11, 7, 15, 0, 0)
@@ -192,40 +192,40 @@ namespace Api.Core.Tests.Services
 
             DateOnly mondayDate = new DateOnly(2024, 11, 4);
 
-            var weekAvailabilityStub = new WeeklyAvailabilityResponse
+            var weekAvailabilityStub = new WeekAvailabilityDTO
             {
-                Facility = new Facility
+                Facility = new FacilityDTO
                 {
                     FacilityId = "this-is-some-facility-id",
                     Name = "We have the best doctors clinic",
                     Address = "Calle falsa 123"
                 },
                 SlotDurationMinutes = 10,
-                Thursday = new Day
+                Thursday = new DayDTO
                 {
-                    WorkPeriod = new WorkPeriod
+                    WorkPeriod = new WorkPeriodDTO
                     {
                         StartHour = 9,
                         EndHour = 15,
                         LunchStartHour = 13,
                         LunchEndHour = 14,
                     },
-                    BusySlots = new List<BusySlot>()
+                    BusySlots = new List<BusySlotDTO>()
                     {
                         // open time
-                        new BusySlot()
+                        new BusySlotDTO()
                         {
                             Start = new DateTime(2024, 11, 7, 9, 0, 0),
                             End = new DateTime(2024, 11, 7, 9, 10, 0)
                         },
                         // right before lunchtime
-                        new BusySlot()
+                        new BusySlotDTO()
                         {
                             Start = new DateTime(2024, 11, 7, 12, 50, 0),
                             End = new DateTime(2024, 11, 7, 13, 0, 0)
                         },
                         // close time
-                        new BusySlot()
+                        new BusySlotDTO()
                         {
                             Start = new DateTime(2024, 11, 7, 14, 50, 0),
                             End = new DateTime(2024, 11, 7, 15, 0, 0)
@@ -255,40 +255,40 @@ namespace Api.Core.Tests.Services
 
             DateOnly mondayDate = new DateOnly(2024, 11, 4);
 
-            var weekAvailabilityStub = new WeeklyAvailabilityResponse
+            var weekAvailabilityStub = new WeekAvailabilityDTO
             {
-                Facility = new Facility
+                Facility = new FacilityDTO
                 {
                     FacilityId = "this-is-some-facility-id",
                     Name = "We have the best doctors clinic",
                     Address = "Calle falsa 123"
                 },
                 SlotDurationMinutes = 10,
-                Thursday = new Day
+                Thursday = new DayDTO
                 {
-                    WorkPeriod = new WorkPeriod
+                    WorkPeriod = new WorkPeriodDTO
                     {
                         StartHour = 9,
                         EndHour = 15,
                         LunchStartHour = 13,
                         LunchEndHour = 14,
                     },
-                    BusySlots = new List<BusySlot>()
+                    BusySlots = new List<BusySlotDTO>()
                     {
                         // open time
-                        new BusySlot()
+                        new BusySlotDTO()
                         {
                             Start = new DateTime(2024, 11, 7, 9, 0, 0),
                             End = new DateTime(2024, 11, 7, 9, 10, 0)
                         },
                         // right before lunchtime
-                        new BusySlot()
+                        new BusySlotDTO()
                         {
                             Start = new DateTime(2024, 11, 7, 12, 50, 0),
                             End = new DateTime(2024, 11, 7, 13, 0, 0)
                         },
                         // close time
-                        new BusySlot()
+                        new BusySlotDTO()
                         {
                             Start = new DateTime(2024, 11, 7, 14, 50, 0),
                             End = new DateTime(2024, 11, 7, 15, 0, 0)
@@ -331,40 +331,40 @@ namespace Api.Core.Tests.Services
 
             DateOnly mondayDate = new DateOnly(2024, 11, 4);
 
-            var weekAvailabilityStub = new WeeklyAvailabilityResponse
+            var weekAvailabilityStub = new WeekAvailabilityDTO
             {
-                Facility = new Facility
+                Facility = new FacilityDTO
                 {
                     FacilityId = "this-is-some-facility-id",
                     Name = "We have the best doctors clinic",
                     Address = "Calle falsa 123"
                 },
                 SlotDurationMinutes = 10,
-                Thursday = new Day
+                Thursday = new DayDTO
                 {
-                    WorkPeriod = new WorkPeriod
+                    WorkPeriod = new WorkPeriodDTO
                     {
                         StartHour = 9,
                         EndHour = 15,
                         LunchStartHour = 13,
                         LunchEndHour = 14,
                     },
-                    BusySlots = new List<BusySlot>()
+                    BusySlots = new List<BusySlotDTO>()
                     {
                         // open time
-                        new BusySlot()
+                        new BusySlotDTO()
                         {
                             Start = new DateTime(2024, 11, 7, 9, 0, 0),
                             End = new DateTime(2024, 11, 7, 9, 10, 0)
                         },
                         // right before lunchtime
-                        new BusySlot()
+                        new BusySlotDTO()
                         {
                             Start = new DateTime(2024, 11, 7, 12, 50, 0),
                             End = new DateTime(2024, 11, 7, 13, 0, 0)
                         },
                         // close time
-                        new BusySlot()
+                        new BusySlotDTO()
                         {
                             Start = new DateTime(2024, 11, 7, 14, 50, 0),
                             End = new DateTime(2024, 11, 7, 15, 0, 0)
@@ -397,18 +397,18 @@ namespace Api.Core.Tests.Services
 
             DateOnly mondayDate = new DateOnly(2024, 11, 4);
 
-            var weekAvailabilityStub = new WeeklyAvailabilityResponse
+            var weekAvailabilityStub = new WeekAvailabilityDTO
             {
-                Facility = new Facility
+                Facility = new FacilityDTO
                 {
                     FacilityId = "this-is-some-facility-id",
                     Name = "We have the best doctors clinic",
                     Address = "Calle falsa 123"
                 },
                 SlotDurationMinutes = 20,
-                Thursday = new Day
+                Thursday = new DayDTO
                 {
-                    WorkPeriod = new WorkPeriod
+                    WorkPeriod = new WorkPeriodDTO
                     {
                         StartHour = 9,
                         EndHour = 17,
@@ -453,18 +453,18 @@ namespace Api.Core.Tests.Services
 
             DateOnly mondayDate = new DateOnly(2024, 11, 4);
 
-            var weekAvailabilityStub = new WeeklyAvailabilityResponse
+            var weekAvailabilityStub = new WeekAvailabilityDTO
             {
-                Facility = new Facility
+                Facility = new FacilityDTO
                 {
                     FacilityId = "this-is-some-facility-id",
                     Name = "We have the best doctors clinic",
                     Address = "Calle falsa 123"
                 },
                 SlotDurationMinutes = 20,
-                Thursday = new Day
+                Thursday = new DayDTO
                 {
-                    WorkPeriod = new WorkPeriod
+                    WorkPeriod = new WorkPeriodDTO
                     {
                         StartHour = 9,
                         EndHour = 17,
@@ -498,18 +498,18 @@ namespace Api.Core.Tests.Services
             var rightAfterLunchTime = new DateTime(2024, 11, 7, 14, 0, 0);
             var rightBeforeCloseTime = new DateTime(2024, 11, 7, 14, 50, 0);
 
-            var weekAvailabilityStub = new WeeklyAvailabilityResponse
+            var weekAvailabilityStub = new WeekAvailabilityDTO
             {
-                Facility = new Facility
+                Facility = new FacilityDTO
                 {
                     FacilityId = "this-is-some-facility-id",
                     Name = "We have the best doctors clinic",
                     Address = "Calle falsa 123"
                 },
                 SlotDurationMinutes = 10,
-                Thursday = new Day
+                Thursday = new DayDTO
                 {
-                    WorkPeriod = new WorkPeriod
+                    WorkPeriod = new WorkPeriodDTO
                     {
                         StartHour = 9,
                         EndHour = 15,
@@ -538,18 +538,18 @@ namespace Api.Core.Tests.Services
             // given
             DateOnly mondayDate = new DateOnly(2024, 11, 4);
 
-            var weekAvailabilityStub = new WeeklyAvailabilityResponse
+            var weekAvailabilityStub = new WeekAvailabilityDTO
             {
-                Facility = new Facility
+                Facility = new FacilityDTO
                 {
                     FacilityId = "this-is-some-facility-id",
                     Name = "We have the best doctors clinic",
                     Address = "Calle falsa 123"
                 },
                 SlotDurationMinutes = 45,
-                Wednesday = new Day
+                Wednesday = new DayDTO
                 {
-                    WorkPeriod = new WorkPeriod
+                    WorkPeriod = new WorkPeriodDTO
                     {
                         StartHour = 9,
                         EndHour = 15,
@@ -585,18 +585,18 @@ namespace Api.Core.Tests.Services
             string facilityName = "We have the best doctors clinic";
             string facilityAddress = "Calle falsa 123";
 
-            var weekAvailabilityStub = new WeeklyAvailabilityResponse
+            var weekAvailabilityStub = new WeekAvailabilityDTO
             {
-                Facility = new Facility
+                Facility = new FacilityDTO
                 {
                     FacilityId = "this-is-some-facility-id",
                     Name = facilityName,
                     Address = facilityAddress
                 },
                 SlotDurationMinutes = 10,
-                Monday = new Day
+                Monday = new DayDTO
                 {
-                    WorkPeriod = new WorkPeriod
+                    WorkPeriod = new WorkPeriodDTO
                     {
                         StartHour = 9,
                         EndHour = 15,
@@ -604,18 +604,18 @@ namespace Api.Core.Tests.Services
                         LunchEndHour = 14,
                     }
                 },
-                Thursday = new Day
+                Thursday = new DayDTO
                 {
-                    WorkPeriod = new WorkPeriod
+                    WorkPeriod = new WorkPeriodDTO
                     {
                         StartHour = 8,
                         EndHour = 14,
                         LunchStartHour = 12,
                         LunchEndHour = 13,
                     },
-                    BusySlots = new List<BusySlot>()
+                    BusySlots = new List<BusySlotDTO>()
                     {
-                        new BusySlot()
+                        new BusySlotDTO()
                         {
                             Start = new DateTime(2024, 11, 4, 8, 0, 0),
                             End = new DateTime(2024, 11, 4, 8, 10, 0)
@@ -638,13 +638,13 @@ namespace Api.Core.Tests.Services
         public async Task GivenSlotRequest_WhenReserveSlot_ThenAssertReturnedValueIsExpected()
         {
             // given
-            var requestDTO = new ReserveSlotDTO
+            var requestDTO = new ReserveSlotRequest
             {
                 FacilityId = "c015550a-7dac-4904-bd83-ef6b48756bb8",
                 Start = "2024-11-04 09:00:00",
                 End = "2024-11-04 09:10:00",
                 Comments = "my knee hurts sometimes when it's about to rain",
-                Patient = new PatientDTO
+                Patient = new Patient
                 {
                     Name = "Mario",
                     SecondName = "Neta",
@@ -654,7 +654,7 @@ namespace Api.Core.Tests.Services
             };
 
             string response = "everything went okay!";
-            _externalApiServiceMock.Setup(api => api.ReserveSlotAsync(It.IsAny<ReserveSlotExternalRequest>())).ReturnsAsync(response);
+            _externalApiServiceMock.Setup(api => api.ReserveSlotAsync(It.IsAny<ReserveSlotDTO>())).ReturnsAsync(response);
 
             // when
             var result = await _service.ReserveSlotAsync(requestDTO);
@@ -668,13 +668,13 @@ namespace Api.Core.Tests.Services
         public async Task GivenSlotRequest_WhenReserveSlot_ThenVerifyCorrectMethodIsCalled()
         {
             // given
-            var requestDTO = new ReserveSlotDTO
+            var requestDTO = new ReserveSlotRequest
             {
                 FacilityId = "c015550a-7dac-4904-bd83-ef6b48756bb8",
                 Start = "2024-11-04 09:00:00",
                 End = "2024-11-04 09:10:00",
                 Comments = "my knee hurts sometimes when it's about to rain",
-                Patient = new PatientDTO
+                Patient = new Patient
                 {
                     Name = "Mario",
                     SecondName = "Neta",
@@ -684,13 +684,13 @@ namespace Api.Core.Tests.Services
             };
 
             string response = "everything went okay!";
-            _externalApiServiceMock.Setup(api => api.ReserveSlotAsync(It.IsAny<ReserveSlotExternalRequest>())).ReturnsAsync(response);
+            _externalApiServiceMock.Setup(api => api.ReserveSlotAsync(It.IsAny<ReserveSlotDTO>())).ReturnsAsync(response);
 
             // when
             var result = await _service.ReserveSlotAsync(requestDTO);
 
             // then
-            _externalApiServiceMock.Verify(api => api.ReserveSlotAsync(It.IsAny<ReserveSlotExternalRequest>()), Times.Once());
+            _externalApiServiceMock.Verify(api => api.ReserveSlotAsync(It.IsAny<ReserveSlotDTO>()), Times.Once());
         }
     }
 }

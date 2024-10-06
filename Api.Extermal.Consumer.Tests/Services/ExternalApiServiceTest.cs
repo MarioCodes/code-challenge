@@ -122,13 +122,13 @@ namespace Api.External.Consumer.Tests.Services
         public async Task GivenCorrectPayload_WhenReserveSlot_ThenResponseIsCorrect()
         {
             // given
-            var request = new ReserveSlotExternalRequest
+            var request = new ReserveSlotDTO
             {
                 FacilityId = "c015550a-7dac-4904-bd83-ef6b48756bb8",
                 Start = "2024-11-04 09:00:00",
                 End = "2024-11-04 09:10:00",
                 Comments = "my knee hurts sometimes when it's about to rain",
-                Patient = new Patient
+                Patient = new PatientDTO
                 {
                     Name = "Mario",
                     SecondName = "Neta",

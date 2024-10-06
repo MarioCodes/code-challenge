@@ -1,6 +1,6 @@
-﻿namespace Api.External.Consumer.Model
+﻿namespace Api.Core.Models
 {
-    public class ReserveSlotExternalRequest
+    public class ReserveSlotRequest
     {
         public string FacilityId { get; set; }
         public string Start { get; set; }
