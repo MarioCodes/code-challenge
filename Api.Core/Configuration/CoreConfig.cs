@@ -13,5 +13,6 @@
         public virtual string InputDateNotMonday { get; set; }
         public virtual string InputDateWrongFormat { get; set; }
         public virtual string InputDateGeneralError { get; set; }
+        public virtual string ReserveSlotGeneralError { get; set; }
     }
 }
