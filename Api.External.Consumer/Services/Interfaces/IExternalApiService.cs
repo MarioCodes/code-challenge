@@ -8,8 +8,8 @@ namespace Api.External.Consumer.Services.Interfaces
         /// Retrieves weekly availability slots from the external API for the specified date.
         /// </summary>
         /// <param name="date">The date to use to retrieve all available slots.</param>
-        /// <returns>A <see cref="WeekAvailabilityDTO"/> which has the available slots for the week.</returns>
-        Task<WeekAvailabilityDTO> GetWeeklyAvailabilityAsync(DateOnly date);
+        /// <returns>A <see cref="WeekAvailabilityDTO"/> which has the available slots for the week or null if the response from the external API is empty or couldn't be deserialized.</returns>
+        Task<WeekAvailabilityDTO?> GetWeeklyAvailabilityAsync(DateOnly date);
 
         /// <summary>
         /// Sends a request to reserve a slot via the external API.

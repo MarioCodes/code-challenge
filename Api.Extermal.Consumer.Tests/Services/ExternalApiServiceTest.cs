@@ -74,7 +74,7 @@ namespace Api.External.Consumer.Tests.Services
         }
 
         [Test]
-        public async Task GivenJsonStructure_WhenCallGetAvailability_ThenResponseParsesDataCorrectly()
+        public async Task GivenJsonStructure_WhenGetAvailability_ThenResponseParsesData()
         {
             // given
             DateOnly dateMonday = new DateOnly(2024, 10, 02);
@@ -119,7 +119,7 @@ namespace Api.External.Consumer.Tests.Services
         }
 
         [Test]
-        public async Task GivenCorrectPayload_WhenReserveSlot_ThenResponseIsCorrect()
+        public async Task GivenPayload_WhenReserveSlot_ThenResponseParsesData()
         {
             // given
             var request = new ReserveSlotDTO
@@ -154,7 +154,5 @@ namespace Api.External.Consumer.Tests.Services
             response.Should().NotBeNull();
             response.Should().BeEmpty();
         }
-
-        // TODO: dot test for reserve slot in case it returns 400 - what does it do now? idk
     }
 }

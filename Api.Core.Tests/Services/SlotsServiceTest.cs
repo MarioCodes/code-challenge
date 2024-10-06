@@ -1,26 +1,34 @@
-﻿using Api.Core.Models;
+﻿using Api.Core.Configuration;
+using Api.Core.Models;
 using Api.Core.Services;
 using Api.Core.Services.interfaces;
 using Api.External.Consumer.Model;
 using Api.External.Consumer.Services.Interfaces;
 using FluentAssertions;
+using Microsoft.Extensions.Options;
 using Moq;
 
 namespace Api.Core.Tests.Services
 {
     public class SlotsServiceTest
     {
-        // TODO: hacerlo con multiples dias tambien
-
         private ISlotsService _service;
 
         private Mock<IExternalApiService> _externalApiServiceMock;
+
+        private Mock<IOptions<ExternalApiConfig>> _iOptExternalConfigMock;
+        private Mock<ExternalApiConfig> _externalApiConfig;
 
         [SetUp]
         public void SetUp()
         {
             _externalApiServiceMock = new Mock<IExternalApiService>();
-            _service = new SlotsService(_externalApiServiceMock.Object);
+
+            _iOptExternalConfigMock = new Mock<IOptions<ExternalApiConfig>>();
+            _externalApiConfig = new Mock<ExternalApiConfig>();
+            _iOptExternalConfigMock.Setup(opt => opt.Value).Returns(_externalApiConfig.Object);
+
+            _service = new SlotsService(_externalApiServiceMock.Object, _iOptExternalConfigMock.Object);
         }
 
         [Test]
@@ -632,6 +640,28 @@ namespace Api.Core.Tests.Services
             result.Facility.Should().NotBeNull();
             result.Facility.Name.Should().Be(facilityName);
             result.Facility.Address.Should().Be(facilityAddress);
+        }
+
+        [Test]
+        public async Task GivenInvalidDataFromExternalApi_WhenGetAvailability_ThenExceptionWithMessageThrown()
+        {
+            // given
+            DateOnly mondayDate = new DateOnly(2024, 11, 4);
+
+            string facilityName = "We have the best doctors clinic";
+            string facilityAddress = "Calle falsa 123";
+
+            WeekAvailabilityDTO? weekAvailabilityNullValue = null;
+            _externalApiServiceMock.Setup(api => api.GetWeeklyAvailabilityAsync(mondayDate)).ReturnsAsync(weekAvailabilityNullValue);
+
+            string errorMessage = "oh no, something went wrong!";
+            _externalApiConfig.Setup(conf => conf.InvalidDataFromExternalApiError).Returns(errorMessage);
+
+            // when
+            Func<Task> result = () => _service.GetWeekFreeSlotsAsync(mondayDate);
+
+            // then
+            await result.Should().ThrowAsync<InvalidOperationException>().WithMessage($"*{errorMessage}*");
         }
 
         [Test]

@@ -14,14 +14,13 @@ namespace Api.External.Consumer.Services
     {
         private ExternalApiConfig _config => _options.Value;
 
-        public async Task<WeekAvailabilityDTO> GetWeeklyAvailabilityAsync(DateOnly date)
+        public async Task<WeekAvailabilityDTO?> GetWeeklyAvailabilityAsync(DateOnly date)
         {
             string parsedDate = date.ToString(_config.ExternalApiDateFormat);
             string endpoint = _config.AvailabilityEndpoint;
             string url = await BuildUrl(endpoint, parsedDate);
             
             string response = await _httpService.HttpCallAsync(_httpClient, () => _httpService.SetUpGet(url));
-            // TODO: check this may be null here, maybe return WeeklyAvailabilityResponse? check if this changes tests or return values
             return JsonConvert.DeserializeObject<WeekAvailabilityDTO>(response);
         }
 

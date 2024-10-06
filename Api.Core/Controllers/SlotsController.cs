@@ -18,8 +18,6 @@ namespace Api.Core.Controllers
 
         private CoreConfig _coreConfig => _iOptionsCoreConfig.Value;
 
-        // TODO: add commentaries as the following
-
         /// <summary>
         /// Retrieves the availability of free slots for a given week based on the provided date.
         /// Input date must be a Monday, and it cannot be in the past.
@@ -56,8 +54,6 @@ namespace Api.Core.Controllers
                 return BadRequest($"{_coreConfig.ErrorMessages.InputDateGeneralError} for date {date} more info: {ex}");
             }
         }
-
-        // TODO: add quick integration testing?
 
         /// <summary>
         /// Reserves a slot based on the provided request details. 

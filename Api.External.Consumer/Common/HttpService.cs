@@ -13,8 +13,6 @@ namespace Api.External.Consumer.Common
         private ExternalApiConfig _apiConfig => _apiOptions.Value;
         private AuthConfig _authConfig => _authOptions.Value;
 
-        // TODO: improve comment
-        // requestfactory needs to be a factory as it needs a new HttpRequestMessage every time in case the send fails and it needs to retry, you cannot resent the same message twice
         public async Task<string> HttpCallAsync(HttpClient client, Func<HttpRequestMessage> requestFactory)
         {
             int retryCount = _apiConfig.RetryAttempts;
@@ -51,7 +49,6 @@ namespace Api.External.Consumer.Common
 
         public HttpRequestMessage SetUpPost(string url, object payload)
         {
-            // TODO: set this exception @ config level
             if (payload is null)
                 throw new ArgumentNullException(nameof(payload), $"Cannot create a post with null payload url '{url}'");
 

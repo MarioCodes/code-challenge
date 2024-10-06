@@ -1,7 +1,9 @@
-﻿using Api.Core.Models;
+﻿using Api.Core.Configuration;
+using Api.Core.Models;
 using Api.Core.Services.interfaces;
 using Api.External.Consumer.Model;
 using Api.External.Consumer.Services.Interfaces;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +11,18 @@ using System.Threading.Tasks;
 
 namespace Api.Core.Services
 {
-    public class SlotsService(IExternalApiService _externalApiService) : ISlotsService
+    public class SlotsService(IExternalApiService _externalApiService,
+        IOptions<ExternalApiConfig> _iOptExternalConfig) : ISlotsService
     {
+        private ExternalApiConfig _config => _iOptExternalConfig.Value;
+
         public async Task<WeekAvailabilityResponse> GetWeekFreeSlotsAsync(DateOnly date)
         {
             var externalWeekData = await _externalApiService.GetWeeklyAvailabilityAsync(date);
+
+            if (externalWeekData is null)
+                throw new InvalidOperationException($"{_config.InvalidDataFromExternalApiError} for date {date.ToString()}");
+
             var weekAvailability = await GetWeekPlanning(date, externalWeekData);
             weekAvailability.Facility = await GetFacilityData(externalWeekData);
             return weekAvailability;
