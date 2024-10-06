@@ -14,15 +14,14 @@ namespace Api.External.Consumer.Services
     {
         private ExternalApiConfig _config => _options.Value;
 
-        public async Task<WeeklyAvailabilityResponse> GetWeeklyAvailabilityAsync(DateOnly date)
+        public async Task<WeekAvailabilityDTO?> GetWeeklyAvailabilityAsync(DateOnly date)
         {
             string parsedDate = date.ToString(_config.ExternalApiDateFormat);
             string endpoint = _config.AvailabilityEndpoint;
             string url = await BuildUrl(endpoint, parsedDate);
             
             string response = await _httpService.HttpCallAsync(_httpClient, () => _httpService.SetUpGet(url));
-            // TODO: check this may be null here, maybe return WeeklyAvailabilityResponse? check if this changes tests or return values
-            return JsonConvert.DeserializeObject<WeeklyAvailabilityResponse>(response);
+            return JsonConvert.DeserializeObject<WeekAvailabilityDTO>(response);
         }
 
         private async Task<string> BuildUrl(string endpoint, string date = "")
@@ -36,7 +35,7 @@ namespace Api.External.Consumer.Services
             return fullUrl.ToString();
         }
 
-        public async Task<string> ReserveSlotAsync(ReserveSlotExternalRequest slotRequest)
+        public async Task<string> ReserveSlotAsync(ReserveSlotDTO slotRequest)
         {
             string endpoint = _config.TakeSlotEndpoint;
             string url = await BuildUrl(endpoint);

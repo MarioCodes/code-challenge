@@ -1,7 +1,9 @@
-﻿using Api.Core.Models;
+﻿using Api.Core.Configuration;
+using Api.Core.Models;
 using Api.Core.Services.interfaces;
 using Api.External.Consumer.Model;
 using Api.External.Consumer.Services.Interfaces;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,55 +11,61 @@ using System.Threading.Tasks;
 
 namespace Api.Core.Services
 {
-    public class SlotsService(IExternalApiService _externalApiService) : ISlotsService
+    public class SlotsService(IExternalApiService _externalApiService,
+        IOptions<ExternalApiConfig> _iOptExternalConfig) : ISlotsService
     {
-        // TODO: add documentation to all public methods
-        public async Task<WeekAvailabilityDTO> GetWeekFreeSlotsAsync(DateOnly date)
+        private ExternalApiConfig _config => _iOptExternalConfig.Value;
+
+        public async Task<WeekAvailabilityResponse> GetWeekFreeSlotsAsync(DateOnly date)
         {
             var externalWeekData = await _externalApiService.GetWeeklyAvailabilityAsync(date);
+
+            if (externalWeekData is null)
+                throw new InvalidOperationException($"{_config.InvalidDataFromExternalApiError} for date {date.ToString()}");
+
             var weekAvailability = await GetWeekPlanning(date, externalWeekData);
             weekAvailability.Facility = await GetFacilityData(externalWeekData);
             return weekAvailability;
         }
 
-        public async Task<string> ReserveSlotAsync(ReserveSlotDTO request)
+        public async Task<string> ReserveSlotAsync(ReserveSlotRequest request)
         {
+            // I do this mapping to decouple input data from data I send to the external API as it may change over time and we may need to adapt to it
             var mappedReserveSlot = await MapReserveSlot(request);
             return await _externalApiService.ReserveSlotAsync(mappedReserveSlot);
         }
 
-        // I do this to decouple input data from data I output to the external API as it may change over time 
-        private async Task<ReserveSlotExternalRequest> MapReserveSlot(ReserveSlotDTO dto)
+        private async Task<ReserveSlotDTO> MapReserveSlot(ReserveSlotRequest request)
         {
-            return new ReserveSlotExternalRequest
+            return new ReserveSlotDTO
             {
-                FacilityId = dto.FacilityId,
-                Comments = dto.Comments,
-                Start = dto.Start,
-                End = dto.End,
-                Patient = new Patient
+                FacilityId = request.FacilityId,
+                Comments = request.Comments,
+                Start = request.Start,
+                End = request.End,
+                Patient = new PatientDTO
                 {
-                    Email = dto.Patient.Email,
-                    Name = dto.Patient.Name,
-                    SecondName = dto.Patient.SecondName,
-                    Phone = dto.Patient.Phone,
+                    Email = request.Patient.Email,
+                    Name = request.Patient.Name,
+                    SecondName = request.Patient.SecondName,
+                    Phone = request.Patient.Phone,
                 }
             };
         }
 
-        private async Task<FacilityDTO> GetFacilityData(WeeklyAvailabilityResponse externalData)
+        private async Task<Facility> GetFacilityData(WeekAvailabilityDTO externalData)
         {
             var facility = externalData.Facility;
-            return new FacilityDTO
+            return new Facility
             {
                 Name = facility?.Name ?? "",
                 Address = facility?.Address ?? ""
             };
         }
 
-        private async Task<WeekAvailabilityDTO> GetWeekPlanning(DateOnly date, WeeklyAvailabilityResponse externalWeekData) 
+        private async Task<WeekAvailabilityResponse> GetWeekPlanning(DateOnly date, WeekAvailabilityDTO externalWeekData) 
         {
-            var weeklyPlanning = new WeekAvailabilityDTO();
+            var weeklyPlanning = new WeekAvailabilityResponse();
             int duration = externalWeekData.SlotDurationMinutes;
             
             weeklyPlanning.Monday = await GetDayPlanning(date.AddDays(0), externalWeekData.Monday, duration);
@@ -71,9 +79,9 @@ namespace Api.Core.Services
             return weeklyPlanning;
         }
 
-        private async Task<DayDTO?> GetDayPlanning(DateOnly date, Day? daySchedule, int slotDuration)
+        private async Task<Day?> GetDayPlanning(DateOnly date, DayDTO? daySchedule, int slotDuration)
         {
-            DayDTO day = new DayDTO();
+            Day day = new Day();
 
             var daySlots = await GetDaySlots(date.AddDays(0), daySchedule, slotDuration);
             if(daySlots.Any())
@@ -86,12 +94,12 @@ namespace Api.Core.Services
             return null;
         }
 
-        private async Task<List<AvailableSlotDTO>> GetDaySlots(DateOnly inputDay, Day? daySchedule, int slotDuration)
+        private async Task<List<AvailableSlot>> GetDaySlots(DateOnly inputDay, DayDTO? daySchedule, int slotDuration)
         {
             if (daySchedule is null)
-                return new List<AvailableSlotDTO>();
+                return new List<AvailableSlot>();
 
-            List<AvailableSlotDTO> availableSlots = [];
+            List<AvailableSlot> availableSlots = [];
             DateTime workshiftStart = await ConvertToDateTime(inputDay, daySchedule.WorkPeriod.StartHour);
             DateTime workshiftEnd = await ConvertToDateTime(inputDay, daySchedule.WorkPeriod.EndHour);
 
@@ -115,7 +123,7 @@ namespace Api.Core.Services
 
                 if (await IsSlotFree(daySchedule, slotStart, slotEnd))
                 {
-                    availableSlots.Add(new AvailableSlotDTO { StartTime = slotStart });
+                    availableSlots.Add(new AvailableSlot { StartTime = slotStart });
                 }
 
                 slotStart = slotEnd;
@@ -124,7 +132,7 @@ namespace Api.Core.Services
             return availableSlots;
         }
 
-        private async Task<bool> IsSlotFree(Day daySchedule, DateTime slotStart, DateTime slotEnd)
+        private async Task<bool> IsSlotFree(DayDTO daySchedule, DateTime slotStart, DateTime slotEnd)
         {
             bool isSlotBusy = daySchedule.BusySlots?.Any(busy => slotStart < busy.End && slotEnd > busy.Start) ?? false;
             return !isSlotBusy;

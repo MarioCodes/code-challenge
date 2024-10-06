@@ -10,6 +10,7 @@
         public virtual int RetryTimespanInSeconds { get; set; }
         public virtual int RetryAttempts { get; set; }
         public virtual string ExternalApiDateFormat { get; set; }
+        public virtual string InvalidDataFromExternalApiError { get; set; }
     }
 
 }

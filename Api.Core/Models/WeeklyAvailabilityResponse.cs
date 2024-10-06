@@ -4,46 +4,45 @@ using System.Text.Json.Serialization;
 
 namespace Api.Core.Models
 {
-    // TODO: check all names in general and try to bring them together
-    public class WeekAvailabilityDTO
+    public class WeekAvailabilityResponse
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public FacilityDTO Facility { get; set; }
+        public Facility Facility { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public DayDTO? Monday { get; set; }
+        public Day? Monday { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public DayDTO? Tuesday { get; set; }
+        public Day? Tuesday { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public DayDTO? Wednesday { get;set; }
+        public Day? Wednesday { get;set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public DayDTO? Thursday { get; set; }
+        public Day? Thursday { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public DayDTO? Friday { get; set; }
+        public Day? Friday { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public DayDTO? Saturday { get; set; }
+        public Day? Saturday { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public DayDTO? Sunday { get; set; }
+        public Day? Sunday { get; set; }
     }
 
-    public class FacilityDTO
+    public class Facility
     {
         public string Name { get; set; }
         public string Address { get; set; }
     }
 
-    public class DayDTO
+    public class Day
     {
-        public List<AvailableSlotDTO> AvailableSlots { get; set; } = new List<AvailableSlotDTO>();
+        public List<AvailableSlot> AvailableSlots { get; set; } = new List<AvailableSlot>();
     }
 
-    public class AvailableSlotDTO
+    public class AvailableSlot
     {
         public DateTime StartTime { get; set; }
     }

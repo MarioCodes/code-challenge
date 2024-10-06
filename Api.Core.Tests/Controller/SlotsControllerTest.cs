@@ -218,7 +218,7 @@ namespace Api.Core.Tests.Controller
             string dateFormat = "yyyyMMdd";
             _coreConfigMock.Setup(conf => conf.InputDateFormat).Returns(dateFormat);
 
-            WeekAvailabilityDTO dtoResponse = new WeekAvailabilityDTO();
+            WeekAvailabilityResponse dtoResponse = new WeekAvailabilityResponse();
 
             _slotsServiceMock.Setup(service => service.GetWeekFreeSlotsAsync(parsedDate))
                 .ReturnsAsync(dtoResponse);
@@ -236,13 +236,13 @@ namespace Api.Core.Tests.Controller
         public async Task GivenServiceThrowsException_WhenReserveSlot_ThenAssertExceptionIsCaught()
         {
             // given
-            var request = new ReserveSlotDTO
+            var request = new ReserveSlotRequest
             {
                 FacilityId = "c015550a-7dac-4904-bd83-ef6b48756bb8",
                 Start = "2024-11-04 09:00:00",
                 End = "2024-11-04 09:10:00",
                 Comments = "my knee hurts sometimes when it's about to rain",
-                Patient = new PatientDTO
+                Patient = new Patient
                 {
                     Name = "Mario",
                     SecondName = "Neta",

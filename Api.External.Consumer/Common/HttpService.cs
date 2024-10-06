@@ -13,8 +13,6 @@ namespace Api.External.Consumer.Common
         private ExternalApiConfig _apiConfig => _apiOptions.Value;
         private AuthConfig _authConfig => _authOptions.Value;
 
-        // TODO: improve comment
-        // requestfactory needs to be a factory as it needs a new HttpRequestMessage every time in case the send fails and it needs to retry, you cannot resent the same message twice
         public async Task<string> HttpCallAsync(HttpClient client, Func<HttpRequestMessage> requestFactory)
         {
             int retryCount = _apiConfig.RetryAttempts;
@@ -34,8 +32,6 @@ namespace Api.External.Consumer.Common
 
             return await retryPolicy.ExecuteAsync(async () =>
             {
-                // TODO: doesn't seem to retry on error
-                // TODO: test error messages and what happens if this fails
                 using (HttpRequestMessage request = requestFactory())
                 {
                     HttpResponseMessage response = await client.SendAsync(request);
@@ -53,7 +49,6 @@ namespace Api.External.Consumer.Common
 
         public HttpRequestMessage SetUpPost(string url, object payload)
         {
-            // TODO: set this exception @ config level
             if (payload is null)
                 throw new ArgumentNullException(nameof(payload), $"Cannot create a post with null payload url '{url}'");
 
@@ -68,7 +63,8 @@ namespace Api.External.Consumer.Common
 
         private HttpRequestMessage AddBasicAuthorization(HttpRequestMessage request)
         {
-            // TODO: check if I leave it like this for KISS or use it another way
+            // I do it like this (take auth options from appsettings) to keep the code test KISS
+            // otherwise I'd use Secrets Manager -> https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=windows#secret-manager
             var authByteArray = Encoding.UTF8.GetBytes($"{_authConfig.User}:{_authConfig.Password}");
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(authByteArray));
             return request;
