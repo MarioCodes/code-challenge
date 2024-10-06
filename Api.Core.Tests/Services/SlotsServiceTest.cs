@@ -1,4 +1,5 @@
-﻿using Api.Core.Services;
+﻿using Api.Core.Models;
+using Api.Core.Services;
 using Api.Core.Services.interfaces;
 using Api.External.Consumer.Model;
 using Api.External.Consumer.Services.Interfaces;
@@ -630,6 +631,65 @@ namespace Api.Core.Tests.Services
             result.Facility.Should().NotBeNull();
             result.Facility.Name.Should().Be(facilityName);
             result.Facility.Address.Should().Be(facilityAddress);
+        }
+
+        [Test]
+        public async Task GivenSlotRequest_WhenReserveSlot_ThenAssertReturnedValueIsExpected()
+        {
+            // given
+            var requestDTO = new ReserveSlotDTO
+            {
+                FacilityId = "c015550a-7dac-4904-bd83-ef6b48756bb8",
+                Start = "2024-11-04 09:00:00",
+                End = "2024-11-04 09:10:00",
+                Comments = "my knee hurts sometimes when it's about to rain",
+                Patient = new PatientDTO
+                {
+                    Name = "Mario",
+                    SecondName = "Neta",
+                    Email = "mario.neta@example.com",
+                    Phone = "+34617829923"
+                }
+            };
+
+            string response = "everything went okay!";
+            _externalApiServiceMock.Setup(api => api.ReserveSlotAsync(It.IsAny<ReserveSlotExternalRequest>())).ReturnsAsync(response);
+
+            // when
+            var result = await _service.ReserveSlotAsync(requestDTO);
+
+            // then
+            result.Should().NotBeNull();
+            result.Should().Be(response);
+        }
+
+        [Test]
+        public async Task GivenSlotRequest_WhenReserveSlot_ThenVerifyCorrectMethodIsCalled()
+        {
+            // given
+            var requestDTO = new ReserveSlotDTO
+            {
+                FacilityId = "c015550a-7dac-4904-bd83-ef6b48756bb8",
+                Start = "2024-11-04 09:00:00",
+                End = "2024-11-04 09:10:00",
+                Comments = "my knee hurts sometimes when it's about to rain",
+                Patient = new PatientDTO
+                {
+                    Name = "Mario",
+                    SecondName = "Neta",
+                    Email = "mario.neta@example.com",
+                    Phone = "+34617829923"
+                }
+            };
+
+            string response = "everything went okay!";
+            _externalApiServiceMock.Setup(api => api.ReserveSlotAsync(It.IsAny<ReserveSlotExternalRequest>())).ReturnsAsync(response);
+
+            // when
+            var result = await _service.ReserveSlotAsync(requestDTO);
+
+            // then
+            _externalApiServiceMock.Verify(api => api.ReserveSlotAsync(It.IsAny<ReserveSlotExternalRequest>()), Times.Once());
         }
     }
 }

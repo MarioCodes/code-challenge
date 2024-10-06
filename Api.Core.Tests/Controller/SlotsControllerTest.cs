@@ -30,7 +30,7 @@ namespace Api.Core.Tests.Controller
         }
 
         [Test]
-        public async Task GivenEmptyString_WhenGetWeekAvailability_ThenAssert400ReturnValueWithMessage()
+        public async Task GivenEmptyStringValidation_WhenGetWeekAvailability_ThenAssert400ReturnValueWithMessage()
         {
             // given
             string date = "";
@@ -55,7 +55,7 @@ namespace Api.Core.Tests.Controller
         }
 
         [Test]
-        public async Task GivenNullString_WhenGetWeekAvailability_ThenAssert400ReturnValueWithMessage()
+        public async Task GivenNullStringValidation_WhenGetWeekAvailability_ThenAssert400ReturnValueWithMessage()
         {
             // given
             string errorMessage = "date has wrong format";
@@ -79,7 +79,7 @@ namespace Api.Core.Tests.Controller
         }
 
         [Test]
-        public async Task GivenAlphaNumericString_WhenGetWeekAvailability_ThenAssert400ReturnValueWithMessage()
+        public async Task GivenAlphaNumericStringValidation_WhenGetWeekAvailability_ThenAssert400ReturnValueWithMessage()
         {
             // given
             string date = "ThisIsNoDate1234";
@@ -104,7 +104,7 @@ namespace Api.Core.Tests.Controller
         }
 
         [Test]
-        public async Task GivenWrongFormatDate_WhenGetWeekAvailability_ThenAssert400ReturnValueWithMessage()
+        public async Task GivenWrongFormatDateValidation_WhenGetWeekAvailability_ThenAssert400ReturnValueWithMessage()
         {
             // given
             string date = "22/11/2024";
@@ -129,7 +129,7 @@ namespace Api.Core.Tests.Controller
         }
 
         [Test]
-        public async Task GivenPastDate_WhenGetWeekAvailability_ThenAssert400ReturnValueWithMessage()
+        public async Task GivenPastDateValidation_WhenGetWeekAvailability_ThenAssert400ReturnValueWithMessage()
         {
             // given
             string date = "20220606";
@@ -154,7 +154,7 @@ namespace Api.Core.Tests.Controller
         }
 
         [Test]
-        public async Task GivenDateIsNoMonday_WhenGetWeekAvailability_ThenAssert400ReturnValueWithMessage()
+        public async Task GivenDateIsNoMondayValidation_WhenGetWeekAvailability_ThenAssert400ReturnValueWithMessage()
         {
             // given
             string date = "20241215";
@@ -231,5 +231,45 @@ namespace Api.Core.Tests.Controller
             result.StatusCode.Should().Be(200);
             result.Value.Should().Be(dtoResponse);
         }
+
+        [Test]
+        public async Task GivenServiceThrowsException_WhenReserveSlot_ThenAssertExceptionIsCaught()
+        {
+            // given
+            var request = new ReserveSlotDTO
+            {
+                FacilityId = "c015550a-7dac-4904-bd83-ef6b48756bb8",
+                Start = "2024-11-04 09:00:00",
+                End = "2024-11-04 09:10:00",
+                Comments = "my knee hurts sometimes when it's about to rain",
+                Patient = new PatientDTO
+                {
+                    Name = "Mario",
+                    SecondName = "Neta",
+                    Email = "mario.neta@example.com",
+                    Phone = "+34617829923"
+                }
+            };
+
+            string outputErrorMessage = "an error has ocurred";
+            var errorMessages = new ErrorMessages
+            {
+                ReserveSlotGeneralError = outputErrorMessage
+            };
+
+            _coreConfigMock.Setup(conf => conf.ErrorMessages).Returns(errorMessages);
+
+            _slotsServiceMock.Setup(service => service.ReserveSlotAsync(request))
+                .ThrowsAsync(new HttpRequestException("error message from exception"));
+
+            // when
+            var result = await _controller.ReserveSlot(request) as BadRequestObjectResult;
+
+            // then
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(400);
+            result.Value.ToString().Should().Contain(outputErrorMessage);
+        }
+
     }
 }

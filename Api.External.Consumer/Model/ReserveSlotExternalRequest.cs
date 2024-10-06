@@ -1,9 +1,10 @@
 ﻿namespace Api.External.Consumer.Model
 {
-    public class TakeSlotRequest
+    public class ReserveSlotExternalRequest
     {
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        public string FacilityId { get; set; }
+        public string Start { get; set; }
+        public string End { get; set; }
         public string Comments { get; set; }
         public Patient Patient { get; set; }
     }
