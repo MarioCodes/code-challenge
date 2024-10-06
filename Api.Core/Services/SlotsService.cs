@@ -11,14 +11,38 @@ namespace Api.Core.Services
 {
     public class SlotsService(IExternalApiService _externalApiService) : ISlotsService
     {
-        // TODO: remember to clean empty folders from repository!
-        // TODO: add documentation
+        // TODO: add documentation to all public methods
         public async Task<WeekAvailabilityDTO> GetWeekFreeSlotsAsync(DateOnly date)
         {
             var externalWeekData = await _externalApiService.GetWeeklyAvailabilityAsync(date);
             var weekAvailability = await GetWeekPlanning(date, externalWeekData);
             weekAvailability.Facility = await GetFacilityData(externalWeekData);
             return weekAvailability;
+        }
+
+        public async Task<string> ReserveSlotAsync(ReserveSlotDTO request)
+        {
+            var mappedReserveSlot = await MapReserveSlot(request);
+            return await _externalApiService.ReserveSlotAsync(mappedReserveSlot);
+        }
+
+        // I do this to decouple input data from data I output to the external API as it may change over time 
+        private async Task<ReserveSlotExternalRequest> MapReserveSlot(ReserveSlotDTO dto)
+        {
+            return new ReserveSlotExternalRequest
+            {
+                FacilityId = dto.FacilityId,
+                Comments = dto.Comments,
+                Start = dto.Start,
+                End = dto.End,
+                Patient = new Patient
+                {
+                    Email = dto.Patient.Email,
+                    Name = dto.Patient.Name,
+                    SecondName = dto.Patient.SecondName,
+                    Phone = dto.Patient.Phone,
+                }
+            };
         }
 
         private async Task<FacilityDTO> GetFacilityData(WeeklyAvailabilityResponse externalData)

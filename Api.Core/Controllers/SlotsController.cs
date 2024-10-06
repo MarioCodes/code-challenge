@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.Extensions.Options;
 using Api.Core.Configuration;
+using Api.External.Consumer.Model;
+using Newtonsoft.Json;
+using Api.Core.Models;
 
 namespace Api.Core.Controllers
 {
@@ -24,7 +27,7 @@ namespace Api.Core.Controllers
         /// <param name="date"></param>
         /// <returns></returns>
         [HttpGet("/weekly/{date}")]
-        [SwaggerOperation(Tags = ["user"])]
+        [SwaggerOperation(Tags = ["slots"])]
         public async Task<IActionResult> GetWeekAvailability(string date)
         {
             try
@@ -46,7 +49,23 @@ namespace Api.Core.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"{_coreConfig.ErrorMessages.InputDateGeneralError} more info: {ex}");
+                return BadRequest($"{_coreConfig.ErrorMessages.InputDateGeneralError} for date {date} more info: {ex}");
+            }
+        }
+
+        // TODO: add quick integration testing?
+        [HttpPost("/reserveSlot")]
+        [SwaggerOperation(Tags = ["slots"])]
+        public async Task<IActionResult> ReserveSlot([FromBody] ReserveSlotDTO request)
+        {
+            try
+            {
+                var response = await _service.ReserveSlotAsync(request);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"{_coreConfig.ErrorMessages.ReserveSlotGeneralError} with data {JsonConvert.SerializeObject(request)} more info: {ex}");
             }
         }
 

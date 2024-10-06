@@ -17,23 +17,31 @@ namespace Api.External.Consumer.Services
         public async Task<WeeklyAvailabilityResponse> GetWeeklyAvailabilityAsync(DateOnly date)
         {
             string parsedDate = date.ToString(_config.ExternalApiDateFormat);
-            string url = await BuildUrl(parsedDate);
+            string endpoint = _config.AvailabilityEndpoint;
+            string url = await BuildUrl(endpoint, parsedDate);
             
             string response = await _httpService.HttpCallAsync(_httpClient, () => _httpService.SetUpGet(url));
+            // TODO: check this may be null here, maybe return WeeklyAvailabilityResponse? check if this changes tests or return values
             return JsonConvert.DeserializeObject<WeeklyAvailabilityResponse>(response);
         }
 
-        private async Task<string> BuildUrl(string date)
+        private async Task<string> BuildUrl(string endpoint, string date = "")
         {
             StringBuilder fullUrl = new StringBuilder(_config.BaseUrl);
-            fullUrl = fullUrl.Append(_config.AvailabilityEndpoint);
-            fullUrl = fullUrl.Append(date);
+            fullUrl = fullUrl.Append(endpoint);
+
+            if(date is not "")
+                fullUrl = fullUrl.Append(date);
+
             return fullUrl.ToString();
         }
 
-        public async Task TakeSlotAsync(TakeSlotRequest slotRequest)
+        public async Task<string> ReserveSlotAsync(ReserveSlotExternalRequest slotRequest)
         {
-            throw new NotImplementedException();
+            string endpoint = _config.TakeSlotEndpoint;
+            string url = await BuildUrl(endpoint);
+            string response = await _httpService.HttpCallAsync(_httpClient, () => _httpService.SetUpPost(url, slotRequest));
+            return response;
         }
     }
 }

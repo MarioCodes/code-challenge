@@ -1,5 +1,6 @@
 ﻿using Api.Core.Configuration;
 using Api.External.Consumer.Common.Interfaces;
+using Api.External.Consumer.Model;
 using Api.External.Consumer.Services;
 using Api.External.Consumer.Services.Interfaces;
 using FluentAssertions;
@@ -79,14 +80,14 @@ namespace Api.External.Consumer.Tests.Services
             DateOnly dateMonday = new DateOnly(2024, 10, 02);
 
             string baseUrl = "http://base_url";
-            string endopint = "/this_is_an_endpoint/";
+            string endpoint = "/this_is_an_endpoint/";
             string dateFormat = "yyyyMMdd";
             string dateMondayStr = "20241002";
-            string fullUrlToCall = baseUrl + endopint + dateMondayStr;
+            string fullUrlToCall = baseUrl + endpoint + dateMondayStr;
 
             _configMock.Setup(conf => conf.ExternalApiDateFormat).Returns(dateFormat);
             _configMock.Setup(conf => conf.BaseUrl).Returns(baseUrl);
-            _configMock.Setup(conf => conf.AvailabilityEndpoint).Returns(endopint);
+            _configMock.Setup(conf => conf.AvailabilityEndpoint).Returns(endpoint);
 
             var httpReqMock = new Mock<HttpRequestMessage>(HttpMethod.Get, fullUrlToCall);
             _httpServiceMock.Setup(httpService => httpService.SetUpGet(fullUrlToCall)).Returns(httpReqMock.Object);
@@ -116,5 +117,44 @@ namespace Api.External.Consumer.Tests.Services
             response.Monday.WorkPeriod.LunchStartHour.Should().Be(13);
             response.Monday.WorkPeriod.LunchEndHour.Should().Be(14);
         }
+
+        [Test]
+        public async Task GivenCorrectPayload_WhenReserveSlot_ThenResponseIsCorrect()
+        {
+            // given
+            var request = new ReserveSlotExternalRequest
+            {
+                FacilityId = "c015550a-7dac-4904-bd83-ef6b48756bb8",
+                Start = "2024-11-04 09:00:00",
+                End = "2024-11-04 09:10:00",
+                Comments = "my knee hurts sometimes when it's about to rain",
+                Patient = new Patient
+                {
+                    Name = "Mario",
+                    SecondName = "Neta",
+                    Email = "mario.neta@example.com",
+                    Phone = "+34617829923"
+                }
+            };
+
+            string baseUrl = "http://base_url";
+            string endpoint = "/this_is_an_endpoint/";
+            string fullUrlToCall = baseUrl + endpoint;
+            _configMock.Setup(conf => conf.BaseUrl).Returns(baseUrl);
+            _configMock.Setup(conf => conf.AvailabilityEndpoint).Returns(endpoint);
+
+            var httpReqMock = new Mock<HttpRequestMessage>(HttpMethod.Post, fullUrlToCall);
+            _httpServiceMock.Setup(httpService => httpService.SetUpPost(fullUrlToCall, request)).Returns(httpReqMock.Object);
+            _httpServiceMock.Setup(httpService => httpService.HttpCallAsync(_httpClientMock.Object, It.IsAny<Func<HttpRequestMessage>>())).ReturnsAsync("");
+
+            // when
+            var response = await _service.ReserveSlotAsync(request);
+
+            // then
+            response.Should().NotBeNull();
+            response.Should().BeEmpty();
+        }
+
+        // TODO: dot test for reserve slot in case it returns 400 - what does it do now? idk
     }
 }

@@ -8,5 +8,7 @@ namespace Api.Core.Services.interfaces
     public interface ISlotsService
     {
         Task<WeekAvailabilityDTO> GetWeekFreeSlotsAsync(DateOnly date);
+        Task<string> ReserveSlotAsync(ReserveSlotDTO request);
+
     }
 }
