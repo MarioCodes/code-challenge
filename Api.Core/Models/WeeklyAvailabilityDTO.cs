@@ -1,10 +1,10 @@
-﻿using Api.External.Consumer.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Api.Core.Models
 {
+    // TODO: check all names in general and try to bring them together
     public class WeekAvailabilityDTO
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

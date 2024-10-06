@@ -3,14 +3,20 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
 using System;
+using Microsoft.Extensions.Options;
+using Api.Core.Configuration;
 
 namespace Api.Core.Controllers
 {
     [ApiController]
     [Route("slots")]
-    public class SlotsController(ISlotsService _service) : ControllerBase
+    public class SlotsController(ISlotsService _service,
+        IOptions<CoreConfig> _iOptionsCoreConfig) : ControllerBase
     {
-        // TODO: add commentaries 
+
+        private CoreConfig _coreConfig => _iOptionsCoreConfig.Value;
+
+        // TODO: add commentaries as the following
 
         /// <summary>
         /// 
@@ -23,30 +29,24 @@ namespace Api.Core.Controllers
         {
             try
             {
-                // TODO: set format @ config level
-                if(DateOnly.TryParseExact(date, "yyyyMMdd", out var parsedDate))
+                string inputDateFormat = _coreConfig.InputDateFormat;
+                if(DateOnly.TryParseExact(date, inputDateFormat, out var parsedDate))
                 {
-                    // TODO: change message!
-                    // TODO: set messages @ config level
-
                     if (parsedDate < DateOnly.FromDateTime(DateTime.Now))
-                        return BadRequest("date cannot be set in the past");
+                        return BadRequest(_coreConfig.ErrorMessages.InputDateSetInPast);
 
                     if (parsedDate.DayOfWeek != DayOfWeek.Monday)
-                        return BadRequest("specified day is not monday");
+                        return BadRequest(_coreConfig.ErrorMessages.InputDateNotMonday);
 
                     var response = await _service.GetWeekFreeSlotsAsync(parsedDate);
-                    // TODO: change return value
                     return Ok(response);
                 }
 
-                // TODO: use here date @ format level
-                return BadRequest("couldn't parse specified date. please check it's a valid date with yyyymmdd format");
+                return BadRequest($"{_coreConfig.ErrorMessages.InputDateWrongFormat}: '{inputDateFormat}'");
             }
             catch (Exception ex)
             {
-                // TODO: improve message
-                return BadRequest("error");
+                return BadRequest($"{_coreConfig.ErrorMessages.InputDateGeneralError} more info: {ex}");
             }
         }
 

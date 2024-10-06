@@ -9,18 +9,18 @@ using System.Text;
 namespace Api.External.Consumer.Services
 {
     public class ExternalApiService(HttpClient _httpClient, 
-        IHttpService _httpUtils, 
+        IHttpService _httpService, 
         IOptions<ExternalApiConfig> _options) : IExternalApiService
     {
         private ExternalApiConfig _config => _options.Value;
 
         public async Task<WeeklyAvailabilityResponse> GetWeeklyAvailabilityAsync(DateOnly date)
         {
+            // TODO: set format at config level
             string parsedDate = date.ToString("yyyyMMdd");
             string url = await BuildUrl(parsedDate);
             
-            HttpRequestMessage request = _httpUtils.SetUpGet(url);
-            string response = await _httpUtils.HttpCallAsync(_httpClient, request);
+            string response = await _httpService.HttpCallAsync(_httpClient, () => _httpService.SetUpGet(url));
             return JsonConvert.DeserializeObject<WeeklyAvailabilityResponse>(response);
         }
 
