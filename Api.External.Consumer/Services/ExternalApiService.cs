@@ -16,8 +16,7 @@ namespace Api.External.Consumer.Services
 
         public async Task<WeeklyAvailabilityResponse> GetWeeklyAvailabilityAsync(DateOnly date)
         {
-            // TODO: set format at config level
-            string parsedDate = date.ToString("yyyyMMdd");
+            string parsedDate = date.ToString(_config.ExternalApiDateFormat);
             string url = await BuildUrl(parsedDate);
             
             string response = await _httpService.HttpCallAsync(_httpClient, () => _httpService.SetUpGet(url));
