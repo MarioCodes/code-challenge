@@ -1,4 +1,4 @@
-﻿namespace Api.Core.Models
+﻿namespace Api.External.Consumer.Model
 {
     public class ReserveSlotDTO
     {

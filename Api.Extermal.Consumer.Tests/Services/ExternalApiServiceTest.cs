@@ -74,7 +74,7 @@ namespace Api.External.Consumer.Tests.Services
         }
 
         [Test]
-        public async Task GivenJsonStructure_WhenCallGetAvailability_ThenResponseParsesDataCorrectly()
+        public async Task GivenJsonStructure_WhenGetAvailability_ThenResponseParsesData()
         {
             // given
             DateOnly dateMonday = new DateOnly(2024, 10, 02);
@@ -119,16 +119,16 @@ namespace Api.External.Consumer.Tests.Services
         }
 
         [Test]
-        public async Task GivenCorrectPayload_WhenReserveSlot_ThenResponseIsCorrect()
+        public async Task GivenPayload_WhenReserveSlot_ThenResponseParsesData()
         {
             // given
-            var request = new ReserveSlotExternalRequest
+            var request = new ReserveSlotDTO
             {
                 FacilityId = "c015550a-7dac-4904-bd83-ef6b48756bb8",
                 Start = "2024-11-04 09:00:00",
                 End = "2024-11-04 09:10:00",
                 Comments = "my knee hurts sometimes when it's about to rain",
-                Patient = new Patient
+                Patient = new PatientDTO
                 {
                     Name = "Mario",
                     SecondName = "Neta",
@@ -154,7 +154,5 @@ namespace Api.External.Consumer.Tests.Services
             response.Should().NotBeNull();
             response.Should().BeEmpty();
         }
-
-        // TODO: dot test for reserve slot in case it returns 400 - what does it do now? idk
     }
 }
