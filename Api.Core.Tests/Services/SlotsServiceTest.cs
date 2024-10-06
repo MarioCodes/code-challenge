@@ -10,6 +10,8 @@ namespace Api.Core.Tests.Services
 {
     public class SlotsServiceTest
     {
+        // TODO: hacerlo con multiples dias tambien
+
         private ISlotsService _service;
 
         private Mock<IExternalApiService> _externalApiServiceMock;
@@ -82,7 +84,6 @@ namespace Api.Core.Tests.Services
             result.Sunday.Should().BeNull();
         }
 
-        // TODO: hacerlo con multiples dias tambien
         [Test]
         public async Task GivenOneDayWithNoReservedSlots_WhenGetAvailability_ThenResultHasCorrectNumberOfFreeSlots()
         {

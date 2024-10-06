@@ -11,7 +11,6 @@ namespace Api.Core.Services
 {
     public class SlotsService(IExternalApiService _externalApiService) : ISlotsService
     {
-        // TODO: add documentation to all public methods
         public async Task<WeekAvailabilityDTO> GetWeekFreeSlotsAsync(DateOnly date)
         {
             var externalWeekData = await _externalApiService.GetWeeklyAvailabilityAsync(date);
@@ -22,11 +21,11 @@ namespace Api.Core.Services
 
         public async Task<string> ReserveSlotAsync(ReserveSlotDTO request)
         {
+            // I do this mapping to decouple input data from data I send to the external API as it may change over time and we may need to adapt to it
             var mappedReserveSlot = await MapReserveSlot(request);
             return await _externalApiService.ReserveSlotAsync(mappedReserveSlot);
         }
 
-        // I do this to decouple input data from data I output to the external API as it may change over time 
         private async Task<ReserveSlotExternalRequest> MapReserveSlot(ReserveSlotDTO dto)
         {
             return new ReserveSlotExternalRequest

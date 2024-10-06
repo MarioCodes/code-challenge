@@ -34,8 +34,6 @@ namespace Api.External.Consumer.Common
 
             return await retryPolicy.ExecuteAsync(async () =>
             {
-                // TODO: doesn't seem to retry on error
-                // TODO: test error messages and what happens if this fails
                 using (HttpRequestMessage request = requestFactory())
                 {
                     HttpResponseMessage response = await client.SendAsync(request);
@@ -68,7 +66,8 @@ namespace Api.External.Consumer.Common
 
         private HttpRequestMessage AddBasicAuthorization(HttpRequestMessage request)
         {
-            // TODO: check if I leave it like this for KISS or use it another way
+            // I do it like this (take auth options from appsettings) to keep the code test KISS
+            // otherwise I'd use Secrets Manager -> https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=windows#secret-manager
             var authByteArray = Encoding.UTF8.GetBytes($"{_authConfig.User}:{_authConfig.Password}");
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(authByteArray));
             return request;

@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 namespace Api.Core.Models
 {
     // TODO: check all names in general and try to bring them together
+    // TODO: this is not the DTO, the DTO is the other one. Change it 
     public class WeekAvailabilityDTO
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

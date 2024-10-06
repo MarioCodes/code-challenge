@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.Extensions.Options;
 using Api.Core.Configuration;
-using Api.External.Consumer.Model;
 using Newtonsoft.Json;
 using Api.Core.Models;
 
@@ -22,10 +21,15 @@ namespace Api.Core.Controllers
         // TODO: add commentaries as the following
 
         /// <summary>
-        /// 
+        /// Retrieves the availability of free slots for a given week based on the provided date.
+        /// Input date must be a Monday, and it cannot be in the past.
         /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
+        /// <param name="date">The date in string format to check availability for the week. The date must be formatted according to the input date format from configuration.</param>
+        /// <returns>
+        /// An object containing the week's availability if the input is valid.
+        /// Returns a <see cref="BadRequestObjectResult"/> if the date is set in the past, is not a Monday, or has an incorrect format.
+        /// </returns>
+        /// <exception cref="Exception">Catches any unexpected exceptions and reuturns a <see cref="BadRequestObjectResult"/> with error details</exception>
         [HttpGet("/weekly/{date}")]
         [SwaggerOperation(Tags = ["slots"])]
         public async Task<IActionResult> GetWeekAvailability(string date)
@@ -54,6 +58,15 @@ namespace Api.Core.Controllers
         }
 
         // TODO: add quick integration testing?
+
+        /// <summary>
+        /// Reserves a slot based on the provided request details. 
+        /// </summary>
+        /// <param name="request">Input object with all details to reserve a slot of time for a patient in a clinic</param>
+        /// <returns>
+        /// An object containing an empty string and a 200 OK status if everything is reserved correctly 
+        /// </returns>
+        /// <exception cref="Exception">Catches any unexpected exceptions and returns a <see cref="BadRequestObjectResult"/> with error details</exception>
         [HttpPost("/reserveSlot")]
         [SwaggerOperation(Tags = ["slots"])]
         public async Task<IActionResult> ReserveSlot([FromBody] ReserveSlotDTO request)
