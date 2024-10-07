@@ -28,7 +28,7 @@ namespace Api.Core.Controllers
         /// Returns a <see cref="BadRequestObjectResult"/> if the date is set in the past, is not a Monday, or has an incorrect format.
         /// </returns>
         /// <exception cref="Exception">Catches any unexpected exceptions and reuturns a <see cref="BadRequestObjectResult"/> with error details</exception>
-        [HttpGet("/weekly/{date}")]
+        [HttpGet("/weeklyAvailability/{date}")]
         [SwaggerOperation(Tags = ["slots"])]
         public async Task<IActionResult> GetWeekAvailability(string date)
         {
