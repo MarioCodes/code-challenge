@@ -45,5 +45,6 @@ namespace Api.Core.Models
     public class AvailableSlot
     {
         public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
     }
 }

@@ -493,6 +493,13 @@ namespace Api.Core.Tests.Services
             result.Thursday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 7, 9, 40, 0));
             result.Thursday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 7, 16, 0, 0));
             result.Thursday.AvailableSlots.Should().Contain(slot => slot.StartTime == new DateTime(2024, 11, 7, 16, 40, 0));
+
+            result.Thursday.AvailableSlots.Should().Contain(slot => slot.EndTime == new DateTime(2024, 11, 7, 9, 20, 0));
+            result.Thursday.AvailableSlots.Should().Contain(slot => slot.EndTime == new DateTime(2024, 11, 7, 9, 40, 0));
+            result.Thursday.AvailableSlots.Should().Contain(slot => slot.EndTime == new DateTime(2024, 11, 7, 10, 0, 0));
+            result.Thursday.AvailableSlots.Should().Contain(slot => slot.EndTime == new DateTime(2024, 11, 7, 16, 20, 0));
+            result.Thursday.AvailableSlots.Should().Contain(slot => slot.EndTime == new DateTime(2024, 11, 7, 16, 40, 0));
+            result.Thursday.AvailableSlots.Should().Contain(slot => slot.EndTime == new DateTime(2024, 11, 7, 17, 0, 0));
         }
 
         [Test]
