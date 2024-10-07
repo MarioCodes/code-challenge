@@ -123,7 +123,7 @@ namespace Api.Core.Services
 
                 if (await IsSlotFree(daySchedule, slotStart, slotEnd))
                 {
-                    availableSlots.Add(new AvailableSlot { StartTime = slotStart });
+                    availableSlots.Add(new AvailableSlot { StartTime = slotStart, EndTime = slotEnd });
                 }
 
                 slotStart = slotEnd;
