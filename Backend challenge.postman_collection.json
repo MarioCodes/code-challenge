@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "4cbfc7e1-87a0-4e2a-bd8b-0bcd4225d8ce",
+		"name": "Backend challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38722946"
+	},
+	"item": [
+		{
+			"name": "draliatest API",
+			"item": [
+				{
+					"name": " https://draliatest.azurewebsites.net/api/availability/GetWeeklyAvailability/20230612",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://draliatest.azurewebsites.net/api/availability/GetWeeklyAvailability/20241104",
+							"protocol": "https",
+							"host": [
+								"draliatest",
+								"azurewebsites",
+								"net"
+							],
+							"path": [
+								"api",
+								"availability",
+								"GetWeeklyAvailability",
+								"20241104"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://draliatest.azurewebsites.net/api/availability/TakeSlot",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FacilityId\": \"c015550a-7dac-4904-bd83-ef6b48756bb8\",\r\n    \"Start\": \"2024-11-04 09:00:00\",\r\n    \"End\": \"2024-11-04 09:10:00\",\r\n    \"Comments\": \"my knee hurts sometimes when it's about to rain\",\r\n    \"Patient\": {\r\n        \"Name\": \"Mario\",\r\n        \"SecondName\": \"Neta\",\r\n        \"Email\": \"MarioNeta123@gmail.com\",\r\n        \"Phone\": \"+34617109293\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://draliatest.azurewebsites.net/api/availability/TakeSlot",
+							"protocol": "https",
+							"host": [
+								"draliatest",
+								"azurewebsites",
+								"net"
+							],
+							"path": [
+								"api",
+								"availability",
+								"TakeSlot"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "my API",
+			"item": [
+				{
+					"name": "see weekly availability",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/weeklyAvailability/20241104",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"weeklyAvailability",
+								"20241104"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "take slot",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FacilityId\": \"c015550a-7dac-4904-bd83-ef6b48756bb8\",\r\n    \"Start\": \"2024-11-04 09:00:00\",\r\n    \"End\": \"2024-11-04 09:10:00\",\r\n    \"Comments\": \"my knee hurts sometimes when it's about to rain\",\r\n    \"Patient\": {\r\n        \"Name\": \"Mario\",\r\n        \"SecondName\": \"Neta\",\r\n        \"Email\": \"MarioNeta123@gmail.com\",\r\n        \"Phone\": \"+34617109293\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/reserveSlot",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"reserveSlot"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
